@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Tom Whitman" />
+
+<meta name="date" content="2019-03-27" />
+
+<title>Coursera Class 8 Final Proj</title>
+
+<script src="JHU_C8_Final_Twhitman_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="JHU_C8_Final_Twhitman_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="JHU_C8_Final_Twhitman_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="JHU_C8_Final_Twhitman_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="JHU_C8_Final_Twhitman_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="JHU_C8_Final_Twhitman_files/navigation-1.1/tabsets.js"></script>
+<link href="JHU_C8_Final_Twhitman_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="JHU_C8_Final_Twhitman_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Coursera Class 8 Final Proj</h1>
+<h4 class="author"><em>Tom Whitman</em></h4>
+<h4 class="date"><em>March 27, 2019</em></h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This exercise is to create machine learning algorithm which will predict which type of exercise has been performed based on data from variety of motion sensors.</p>
+</div>
+<div id="data-profiling" class="section level2">
+<h2>Data profiling</h2>
+<pre class="r"><code>dim(pmlTrain)</code></pre>
+<pre><code>## [1] 19622   160</code></pre>
+<pre class="r"><code>summary(pmlTrain$new_window)</code></pre>
+<pre><code>##    no   yes 
+## 19216   406</code></pre>
+<pre class="r"><code>summary(pmlTrain$classe)</code></pre>
+<pre><code>##    A    B    C    D    E 
+## 5580 3797 3422 3216 3607</code></pre>
+<p>The first thing to note, is that there are 160 variables. Preferably, we can use fewer as features in predictions. In addition, approximatley 2% (406/19622) observations appear very differnet: they are the ones that “yes” in the ‘new_window’ variable. Values in these rows appear very different. Therefore, I will exclude these rows from this exercise. In addition, I will exclude any variables (columns) which are all null after excluding the above rows.</p>
+<pre class="r"><code>#filter and rows and columns based on profiling
+pmlTrain2 &lt;- filter(pmlTrain, new_window == &#39;no&#39;)
+pmlTrain2 &lt;- pmlTrain2[, !names(pmlTrain2) %in% c(&#39;X&#39;, &#39;user_name&#39;, &#39;raw_timestamp_part_1&#39;, &#39;raw_timestamp_part_2&#39;, &#39;cvtd_timestamp&#39;, &#39;new_window&#39;)]
+#remove columns which have only NA values
+pmlTrain2 &lt;- pmlTrain2 %&gt;% select_if(colSums(!is.na(.)) &gt; 0)
+dim(pmlTrain2)</code></pre>
+<pre><code>## [1] 19216    54</code></pre>
+</div>
+<div id="data-preprocessing-and-feature-selection" class="section level2">
+<h2>Data preprocessing and Feature Selection</h2>
+<p>Now that we’ve cleaned the training dataset, next step is to select features.</p>
+<pre class="r"><code>inTrain &lt;- createDataPartition(y=pmlTrain2$classe, p=0.75, list=FALSE)
+mytrain &lt;- pmlTrain2[inTrain,]
+mytest &lt;- pmlTrain2[-inTrain,]</code></pre>
+<p>Here I am using Random Forest. I’m using this method because it is robust approach. There is some danger of overfitting. However, will test using confusion matrix.</p>
+<pre class="r"><code>fitCntrl &lt;- trainControl(method=&quot;repeatedcv&quot;, number = 5, repeats = 4)
+modelfit &lt;- train(classe~.,data=mytrain,method=&quot;rf&quot;,trcontrol= fitCntrl)
+
+pred &lt;- predict(modelfit, mytest)
+confusionMatrix(mytest$classe, pred)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1367    0    0    0    0
+##          B    2  927    0    0    0
+##          C    0    0  838    0    0
+##          D    0    0    2  783    1
+##          E    0    0    0    0  882
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.999           
+##                  95% CI : (0.9976, 0.9997)
+##     No Information Rate : 0.2851          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9987          
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9985   1.0000   0.9976   1.0000   0.9989
+## Specificity            1.0000   0.9995   1.0000   0.9993   1.0000
+## Pos Pred Value         1.0000   0.9978   1.0000   0.9962   1.0000
+## Neg Pred Value         0.9994   1.0000   0.9995   1.0000   0.9997
+## Prevalence             0.2851   0.1930   0.1749   0.1631   0.1839
+## Detection Rate         0.2847   0.1930   0.1745   0.1631   0.1837
+## Detection Prevalence   0.2847   0.1935   0.1745   0.1637   0.1837
+## Balanced Accuracy      0.9993   0.9997   0.9988   0.9996   0.9994</code></pre>
+<p>Based on above confusion test and confusion matrix, this is a very strong output. If concern around overfitting, recommend using limiting how deep the trees can be grown by setting with maxnodes() setting.</p>
+</div>
+<div id="final-run-against-formal-test-set" class="section level2">
+<h2>Final Run against formal Test Set</h2>
+<pre class="r"><code>LiveTestPrediction &lt;- predict(modelfit, newdata = pmlTest)
+LiveTestPrediction</code></pre>
+<pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
+## Levels: A B C D E</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+---
+title: "Coursera Class 8 Final Proj"
+author: "Tom Whitman"
+date: "March 27, 2019"
+output: 
+  html_document:
+    self_contained: false
+
+---
+
+## Introduction
+This exercise is to create machine learning algorithm which will predict which type of exercise has been performed based on data from variety of motion sensors.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# load relevant packages and set seed
+library(caret)
+library(dplyr)
+library(AppliedPredictiveModeling)
+set.seed(512)
+
+# obtain data
+trainURL <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+testURL <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+pmlTrain <- read.csv(trainURL, na.strings=c("NA","#DIV/0!",""))
+pmlTest <- read.csv(testURL, na.strings=c("NA","#DIV/0!",""))
+rm("trainURL"); rm("testURL")
+
+```
+
+## Data profiling
+
+```{r profiling}
+dim(pmlTrain)
+summary(pmlTrain$new_window)
+summary(pmlTrain$classe)
+
+```
+
+The first thing to note, is that there are 160 variables. Preferably, we can use fewer as features in predictions.
+In addition, approximatley 2% (406/19622) observations appear very differnet:  they are the ones that "yes" in the 'new_window' variable.  Values in these rows appear very different.  Therefore, I will exclude these rows from this exercise.
+In addition, I will exclude any variables (columns) which are all null after excluding the above rows.
+
+```{r}
+#filter and rows and columns based on profiling
+pmlTrain2 <- filter(pmlTrain, new_window == 'no')
+pmlTrain2 <- pmlTrain2[, !names(pmlTrain2) %in% c('X', 'user_name', 'raw_timestamp_part_1', 'raw_timestamp_part_2', 'cvtd_timestamp', 'new_window')]
+#remove columns which have only NA values
+pmlTrain2 <- pmlTrain2 %>% select_if(colSums(!is.na(.)) > 0)
+dim(pmlTrain2)
+```
+
+## Data preprocessing and Feature Selection
+
+Now that we've cleaned the training dataset, next step is to select features.
+
+```{r}
+inTrain <- createDataPartition(y=pmlTrain2$classe, p=0.75, list=FALSE)
+mytrain <- pmlTrain2[inTrain,]
+mytest <- pmlTrain2[-inTrain,]
+```
+
+Here I am using Random Forest. I'm using this method because it is robust approach.  There is some danger of overfitting.  However, will test using confusion matrix.
+
+```{r}
+fitCntrl <- trainControl(method="repeatedcv", number = 5, repeats = 4)
+modelfit <- train(classe~.,data=mytrain,method="rf",trcontrol= fitCntrl)
+
+pred <- predict(modelfit, mytest)
+confusionMatrix(mytest$classe, pred)
+
+```
+Based on above confusion test and confusion matrix, this is a very strong output.  If concern around overfitting, recommend using limiting how deep the trees can be grown by setting with maxnodes() setting.
+
+## Final Run against formal Test Set
+
+```{r}
+LiveTestPrediction <- predict(modelfit, newdata = pmlTest)
+LiveTestPrediction
+
+```
